@@ -1,6 +1,5 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt")
@@ -45,3 +44,6 @@ passport.deserializeUser( async (id, done) => {
 app.use((err, req, res, next) => {
   res.send(err.message)
 })
+
+
+module.exports = { passport }
