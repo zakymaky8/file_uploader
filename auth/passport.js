@@ -26,24 +26,18 @@ const verifyUser = async function(username, password, done) {
 passport.use(new LocalStrategy(verifyUser))
 
 passport.serializeUser((user, done) => {
-  done(null, user.id)
+  done(null, user.users_id)
 })
 
 passport.deserializeUser( async (id, done) => {
   try {
     const user = await prisma.users.findFirst({
-        where: {
-            users_id: id
-        }
+        where: {users_id: id}
     })
     done(null, user)
   } catch(err) {
      done(err)
   }
 })
-app.use((err, req, res, next) => {
-  res.send(err.message)
-})
-
 
 module.exports = { passport }
