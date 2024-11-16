@@ -45,3 +45,11 @@ model File {
   user       Users    @relation(fields: [user_id], references: [users_id])
   user_id    Int
 }
+
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}
