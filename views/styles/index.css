@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: rgb(8, 47, 12);
+    color: rgb(190, 159, 226);
+    display: grid;
+    grid-template-columns: 1.4fr 4fr;
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas: 'header header'
+                          'nav  main';
+    min-height: 100vh;
+}
+
+header {
+    grid-area: header;
+    border-bottom: 1px solid black;
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+
+main {
+    grid-area: main;
+    height: 82.8vh;
+    overflow-y: auto;
+}
+
+nav {
+    grid-area: nav;
+    border-right: 1px solid black;
+
+}
+nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+    gap: 20px;
+    padding: 20px;
+}
+li,td {
+    cursor: pointer;
+}
+table, th, td {
+    border-collapse: collapse;
+}
+td {
+    text-align: center;
+    user-select: none;
+}
+
+th {
+    background: rgb(1, 16, 1);
+    border: 1px solid black;
+}
+table {
+    width: 100%;
+}
+
+td {
+    min-height: 40px;
+}
+
+th {
+    text-align: left;
+    padding: 10px;
+}
+
+#profile-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgb(28, 9, 116);
+    text-align: center;
+    padding: 4px;
+}
+#profile-icon:hover {
+    border: 2px solid rgb(80, 70, 70);
+}
+
+#profile-icon:active {
+    border: 2px solid white;
+}
+.more:hover {
+    border: 1px solid aqua;
+    border-radius: 10px;
+}
+.profile {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    align-items: center;
+    background: #000;
+    border-radius: 2px;
+    padding: 10px;
+}
+
+.path {
+    background: #1f5705;
+    padding: 5px;
+    font-size: 12px;
+}
+@media screen and (max-width: 580px) {
+    body {
+        grid-template-areas: "header header"
+                             "nav nav"
+                             "main main";
+        grid-template-columns: 1fr;
+        grid-template-rows: 15vh 10vh 1fr;
+    }
+    nav ul {
+        flex-direction: row;
+    }
+    nav {
+        display: flex;
+        justify-content: center;
+    }
+}
