@@ -25,7 +25,7 @@ model Users {
 
 model Folder {
   folders_id      String   @id @default(uuid())
-  folder_name     String   @unique
+  folder_name     String
   createdAt       DateTime @updatedAt
   files           File[]
   user            Users    @relation(fields: [user_id], references: [users_id])
@@ -37,7 +37,7 @@ model Folder {
 
 model File {
   files_id   String   @id @default(uuid())
-  filename   String   @unique
+  filename   String
   size       Int
   uploadTime DateTime @updatedAt
   folders    Folder[]
