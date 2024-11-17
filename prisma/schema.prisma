@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Users {
-  users_id  Int      @id @default(autoincrement())
+  users_id  String   @id @default(uuid())
   firstname String?
   lastname  String?
   username  String   @unique
@@ -24,32 +24,30 @@ model Users {
 }
 
 model Folder {
-  folders_id  Int    @id @default(autoincrement())
-  folder_name String @unique
-  createdAt   DateTime
-  files       File[]
-  user        Users  @relation(fields: [user_id], references: [users_id])
-  user_id     Int
-  parentId  Int?
-  parent    Folder?  @relation("Subfolder", fields: [parentId], references: [folders_id])
-  children_folder  Folder[] @relation("Subfolder")
-
+  folders_id      String   @id @default(uuid())
+  folder_name     String   @unique
+  createdAt       DateTime @updatedAt
+  files           File[]
+  user            Users    @relation(fields: [user_id], references: [users_id])
+  user_id         String
+  parentId        String?
+  parent          Folder?  @relation("Subfolder", fields: [parentId], references: [folders_id])
+  children_folder Folder[] @relation("Subfolder")
 }
 
 model File {
-  files_id   Int      @id @default(autoincrement())
+  files_id   String   @id @default(uuid())
   filename   String   @unique
   size       String
   uploadTime DateTime @updatedAt
   folders    Folder[]
   user       Users    @relation(fields: [user_id], references: [users_id])
-  user_id    Int
+  user_id    String
 }
-
 
 model Session {
   id        String   @id
   sid       String   @unique
   data      String
-  expiresAt   DateTime
+  expiresAt DateTime
 }
