@@ -38,7 +38,7 @@ model Folder {
 model File {
   files_id   String   @id @default(uuid())
   filename   String   @unique
-  size       String
+  size       Int
   uploadTime DateTime @updatedAt
   folders    Folder[]
   user       Users    @relation(fields: [user_id], references: [users_id])
