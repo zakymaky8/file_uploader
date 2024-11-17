@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,20 +11,33 @@
     <header>
         <h1>File Uploader 📤</h1>
         <div class="profile">
-            <span id="profile-icon">Z</span>
-            <span title="logout">↪️</span>
+            <span id="profile-icon"><%= user.username[0].toUpperCase() %></span>
+            <span title="logout" onclick="window.location.href='/singout'">↪️</span>
         </div>
     </header>
     <nav>
         <ul>
-            <li>🗃️ New File +</li>
-            <li>🗂️ New Folder +</li>
+            <li><br>
+                <span id="newfile">🗃️ New File +</span>
+                <br><br>
+                <form action="/upload" method="POST" style="display: none;" id="upload-form"  enctype="multipart/form-data">
+                    <input type="file" name="file" id="file" required>
+                    <button type="submit">Upload</button>
+                </form>
+            </li>
+            <li>
+                <span id="new-folder">🗂️ New Folder +</span>
+                <form action="/new_folder" onsubmit="return validateFolderCreation()" method="POST" id="folder-form" style="display: none;">
+                    <input type="text" name="folder" id="folder" placeholder="name your folder">
+                    <button id="submit" type="submit"> create</button>
+                </form>
+            </li>
             <li>🚀 Share Folder</li>
         </ul>
     </nav>
     <main>
         <div class="path">
-            <span>root / fold1 / fold2</span>
+            <span><%= "/home" %></span>
         </div>
         <table>
             <tr>
@@ -32,33 +46,67 @@
                 <th>Size</th>
                 <th>More</th>
             </tr>
-            <tr>
-                <td style="display: flex; gap: 10px;padding:5px"><span>🗂️</span><span>Name  Name </span></td>
-                <td>Uploaded At</td>
-                <td>Size</td>
-                <td><span class="more">⋮</span></td>
-            </tr>
-            <tr>
-                <td style="display: flex; gap: 10px;padding:5px"><span>🗂️</span><span>Name  Name </span></td>
-                <td>Uploaded At</td>
-                <td>Size</td>
-                <td><span class="more">⋮</span></td>
-            </tr>
-            <tr>
-                <td style="display: flex; gap: 10px;padding:5px"><span>🗂️</span><span>Name  Name </span></td>
-                <td>Uploaded At</td>
-                <td>Size</td>
-                <td><span class="more">⋮</span></td>
-            </tr>
-            <tr>
-                <td style="display: flex; gap: 10px;padding:5px"><span>🗂️</span><span>Name  Name </span></td>
-                <td>Uploaded At</td>
-                <td>Size</td>
-                <td><span class="more">⋮</span></td>
-            </tr>
+            <% if (locals.data.length)  { %>
+                <% console.log(locals.data) %>
+                <% data.map(item=> { %>
+                    <% if (item.folders_id)  { %>
+                        <td style="display: flex; gap: 10px;padding:5px">
+                            <a style="color: rgb(194, 71, 22);text-decoration: none;font-size: 13px" href="/folder/">
+                                <span>🗂️</span><span> <%= item.folder_name %> </span>
+                            </a>
+                        </td>
+
+                        <td><%= `${item.createdAt.toLocaleDateString()} ${item.createdAt.toLocaleTimeString()}` %></td>
+                        <td><%= item.folders_id %></td>
+                        <td><span class="more">⋮</span></td>
+
+                    <% } else if (item.files_id)  { %>
+
+                        <td style="display: flex; gap: 10px;padding:5px">
+                            <a style="color: rgb(228, 24, 255);text-decoration: none;font-size: 13px" href="/folder/">
+                                <span></span><span> File: <%= item.filename %> </span>
+                            </a>
+                        </td>
+
+                        <td><%= `${item.uploadTime.toLocaleDateString()} ${item.uploadTime.toLocaleTimeString()}` %></td>
+                        <td><%= item.size / 1000 %>KB</td>
+                        <td><span class="more">⋮</span></td>
+                    <%  } %>
+                    <tr>
+
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            <% } %>
 
             </tr>
         </table>
     </main>
 </body>
+<script>
+    const newFolder = document.getElementById("new-folder");
+    const folderForm = document.getElementById("folder-form");
+    const smtBtn = document.getElementById("submit");
+    const inpFld = document.getElementById("folder");
+    const uploadForm = document.getElementById("upload-form");
+    const newFile = document.getElementById("newfile")
+
+    newFolder.onclick = () => {
+        folderForm.style.display = folderForm.style.display === "flex" ? "none" : "flex";
+        uploadForm.style.display ="none";
+    } 
+    newFile.onclick = () => {
+        uploadForm.style.display = uploadForm.style.display === "flex" ? "none" : "flex";
+        folderForm.style.display = "none"
+    }
+    function validateFolderCreation() {
+        return (inpFld.value) ? true : false
+    }
+</script>
 </html>

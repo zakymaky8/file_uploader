@@ -9,7 +9,7 @@ const verifyUser = async function(username, password, done) {
     try {
         const user = await prisma.users.findFirst({where: {username: username}});
         if (!user) {
-            return done(null, false, {message: `there is no user with ${username}` })
+            return done(null, false, {message: `there is no user with '${username}'` })
         } else {
             const match = await bcrypt.compare(password, user.password);
             if (!match) {

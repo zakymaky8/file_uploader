@@ -72,10 +72,11 @@ table {
 td {
     min-height: 40px;
     border-bottom: 1px solid black;
+    font-size: 11px;
 }
 
 th {
-    text-align: left;
+    text-align: center;
     padding: 10px;
 }
 
