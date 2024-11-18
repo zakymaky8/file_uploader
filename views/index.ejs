@@ -12,7 +12,12 @@
         <h1>File Uploader 📤</h1>
         <div class="profile">
             <span id="profile-icon"><%= user.username[0].toUpperCase() %></span>
-            <span title="logout" onclick="window.location.href='/singout'">↪️</span>
+            <ul id="prof-pref" style="display: none;">
+                <li>📝Profile Detail</li>
+                <li>⚙️Setting</li>
+                <li title="logout" onclick="window.location.href='/singout'">↪️Sign Out</li>
+            </ul>
+            
         </div>
     </header>
     <nav>
@@ -20,14 +25,14 @@
             <li><br>
                 <span id="newfile">🗃️ New File +</span>
                 <br><br>
-                <form action="/upload" method="POST" style="display: none;" id="upload-form"  enctype="multipart/form-data">
+                <form action= <%= locals.creationEndpt ?  `/file_uploaded_to/${locals.creationEndpt}` : "/upload" %> method="POST" style="display: none;" id="upload-form"  enctype="multipart/form-data">
                     <input type="file" name="file" id="file" required>
                     <button type="submit">Upload</button>
                 </form>
             </li>
             <li>
                 <span id="new-folder">🗂️ New Folder +</span>
-                <form action="/new_folder" onsubmit="return validateFolderCreation()" method="POST" id="folder-form" style="display: none;">
+                <form action= <%= locals.creationEndpt ?  `/folder/${locals.creationEndpt}` : "/folder/new_folder" %> onsubmit="return validateFolderCreation()" method="POST" id="folder-form" style="display: none;">
                     <input type="text" name="folder" id="folder" placeholder="name your folder">
                     <button id="submit" type="submit"> create</button>
                 </form>
@@ -37,7 +42,15 @@
     </nav>
     <main>
         <div class="path">
-            <span><%= "/home" %></span>
+            <p>
+                <% if (locals.path) { %>
+                    <% path.map(p => { %>
+                        <a style="color: rgb(0, 0, 0); font-size: 15px;text-decoration: none" href = <%= `/folder/${p.id}` %> >/<%= p.name %></a>
+                    <% }) %>
+                <% } else { %>
+                    /
+                <% } %>
+            </p>
         </div>
         <table>
             <tr>
@@ -47,25 +60,22 @@
                 <th>More</th>
             </tr>
             <% if (locals.data.length)  { %>
-                <% console.log(locals.data) %>
                 <% data.map(item=> { %>
                     <% if (item.folders_id)  { %>
                         <td style="display: flex; gap: 10px;padding:5px">
-                            <a style="color: rgb(194, 71, 22);text-decoration: none;font-size: 13px" href="/folder/">
+                            <a style="color: rgb(194, 71, 22);text-decoration: none;font-size: 19px" href="/folder/<%= item.folders_id %>">
                                 <span>🗂️</span><span> <%= item.folder_name %> </span>
                             </a>
                         </td>
 
                         <td><%= `${item.createdAt.toLocaleDateString()} ${item.createdAt.toLocaleTimeString()}` %></td>
-                        <td><%= item.folders_id %></td>
+                        <td>-</td>
                         <td><span class="more">⋮</span></td>
 
                     <% } else if (item.files_id)  { %>
 
                         <td style="display: flex; gap: 10px;padding:5px">
-                            <a style="color: rgb(228, 24, 255);text-decoration: none;font-size: 13px" href="/folder/">
-                                <span></span><span> File: <%= item.filename %> </span>
-                            </a>
+                            <span style="color: rgb(228, 24, 255);text-decoration: none;font-size: 13px"> File: <%= item.filename %> </span>
                         </td>
 
                         <td><%= `${item.uploadTime.toLocaleDateString()} ${item.uploadTime.toLocaleTimeString()}` %></td>
@@ -88,6 +98,9 @@
             </tr>
         </table>
     </main>
+    <!-- <dialog class="modal">
+        <h1>File name: </h1>
+    </dialog> -->
 </body>
 <script>
     const newFolder = document.getElementById("new-folder");
@@ -95,7 +108,10 @@
     const smtBtn = document.getElementById("submit");
     const inpFld = document.getElementById("folder");
     const uploadForm = document.getElementById("upload-form");
-    const newFile = document.getElementById("newfile")
+    const newFile = document.getElementById("newfile");
+    const profilePrefs = document.querySelector("#prof-pref");
+    const profileIcon = document.querySelector("#profile-icon");
+
 
     newFolder.onclick = () => {
         folderForm.style.display = folderForm.style.display === "flex" ? "none" : "flex";
@@ -105,6 +121,11 @@
         uploadForm.style.display = uploadForm.style.display === "flex" ? "none" : "flex";
         folderForm.style.display = "none"
     }
+
+    profileIcon.onclick = () => {
+        profilePrefs.style.display =  profilePrefs.style.display === "none" ? "flex" : "none"
+    }
+
     function validateFolderCreation() {
         return (inpFld.value) ? true : false
     }
