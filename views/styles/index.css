@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body {
-    background: rgb(8, 47, 12);
+    background: rgb(1, 40, 26);
     color: rgb(190, 159, 226);
     display: grid;
     grid-template-columns: 1.4fr 4fr;
@@ -21,7 +21,7 @@ header {
     padding: 20px;
     justify-content: space-between;
     align-items: center;
-    box-shadow: inset -1px -1px 5px 1px darkgreen;
+    box-shadow: inset -1px -1px 5px 1px rgb(97, 95, 102);
 }
 header h1 {
     -webkit-text-stroke: 1px rgb(190, 159, 226);
@@ -33,7 +33,7 @@ main {
     grid-area: main;
     height: 82.8vh;
     overflow-y: auto;
-    background: rgb(18, 45, 24);
+    background: rgb(34, 52, 39);
 }
 
 nav {
@@ -92,9 +92,24 @@ th {
     border: 2px solid rgb(80, 70, 70);
 }
 
-#profile-icon + span  {
-    border: 2px solid rgb(255, 0, 0);
-    border-radius: 5px;
+#prof-pref {
+    list-style-type: none;
+    background: rgb(108, 123, 109);
+    border-radius: 15px;
+    padding: 15px;
+    position: absolute;
+    width: max-content;
+    color: black;
+    right: 60%;
+    top: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#prof-pref li:hover {
+    text-decoration: underline;
+    color: blue;
 }
 
 #profile-icon:active, #profile-icon + span:active {
@@ -110,8 +125,9 @@ th {
     cursor: pointer;
     align-items: center;
     background: #000;
-    border-radius: 2px;
+    border-radius: 12px;
     padding: 10px;
+    position: relative;
 }
 
 #folder-form {
