@@ -22,7 +22,36 @@ module.exports = {
             where: {user_id:user.users_id,  parentId: null }
         });
     },
-    getAllFoldersInsideFolder: async () => {
+    getAllDataInsideFolder: async (user, folder_id) => {
+        const folders = await prisma.folder.findMany({
+            where: {
+                user_id: user.users_id,
+                parentId: folder_id
+            }
+        });
+        const files = await prisma.file.findMany({
+            where: {
+                user_id: user.users_id,
+                folder_id: folder_id
+            }
+        })
+        return [...folders, ...files]
+    },
 
+    createFolderInsideFolder: async (entry, user, folder_id) => {
+        await prisma.folder.create({
+            data: {
+                folder_name: entry.folder,
+                parentId: folder_id,
+                user_id: user.users_id,
+                parentId: folder_id
+            }
+        })
+    },
+    updateFolder: async (user, folder_id, entry) => {
+        await prisma.folder.update({
+            where: {user_id: user.users_id,folders_id: folder_id},
+            data: { folder_name: entry.folder }
+        })
     }
 }
