@@ -40,7 +40,8 @@ model File {
   filename   String
   size       Int
   uploadTime DateTime @updatedAt
-  folders    Folder[]
+  folder     Folder?  @relation(fields: [folder_id], references: [folders_id])
+  folder_id  String?
   user       Users    @relation(fields: [user_id], references: [users_id])
   user_id    String
 }
