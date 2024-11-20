@@ -126,9 +126,16 @@ const dowloadFile = async (req, res) => {
         return;
     } else {
         res.send("file not found")
-        return 
+        return;
     }
 }
+
+const deleteFolderPost = async (req, res)  => {
+    const { folder_id } = req.params;
+    await Folder.deleteFolder(req.user, folder_id);
+    res.redirect("/")
+}
+
 
 module.exports = {
     getHome,
@@ -142,5 +149,6 @@ module.exports = {
     editFolderName,
     deleteSingleFile,
     fileDetailGet,
-    dowloadFile
+    dowloadFile,
+    deleteFolderPost
 }

@@ -53,5 +53,11 @@ module.exports = {
             where: {user_id: user.users_id,folders_id: folder_id},
             data: { folder_name: entry.folder }
         })
+    },
+    deleteFolder: async (user, folder_id) => {
+        await prisma.folder.delete({where: {user_id: user.users_id, folders_id: folder_id}});
+        // here is undesirable and unoptimal way of deleting this approach only deletes the
+        //  parent folder but doesn't what inside it might seem well done on the view but on database
+        //  there are still files which aren't deleted
     }
 }
