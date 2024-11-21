@@ -13,10 +13,10 @@ app.use(express.static("views"))
 
 
 
-app.listen(8081, () => {
-    console.log("server is listening on port 8081");
+app.listen(8080, () => {
+    console.log("server is listening on port 8080");
 })
 
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
-(async()=> console.log(await prisma.users.findMany()))()
+// const { PrismaClient } = require("@prisma/client");
+// const prisma = new PrismaClient();
+// (async()=> console.log(await prisma.users.findMany()))()

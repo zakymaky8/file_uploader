@@ -37,7 +37,7 @@
                 <br><br>
                 <form action= <%= locals.creationEndpt ?  `/file_uploaded_to/${locals.creationEndpt}` : "/upload" %> method="POST" style="display: none;" id="upload-form"  enctype="multipart/form-data">
                     <input type="file" name="file" id="file" required>
-                    <button type="submit">Upload</button>
+                    <button style="background: none; padding: 4px; font-size: 20px" type="submit">📤</button>
                 </form>
             </li>
             <li>
@@ -52,7 +52,7 @@
     </nav>
     <main>
         <div class="path">
-            <p><a style="color: rgb(202, 148, 0); font-size: 15px;" href="/">Root</a>
+            <p><a style="color: rgb(202, 148, 0); font-size: 15px;" href="/"><%= user.username %>/Root</a>
                 <% if (locals.path) { %>
                     <% path.map(p => { %>
                         <a style="color: rgb(7, 167, 15); font-size: 15px;" href = <%= `/folder/${p.id}` %> ><b style="font-weight: 1000; color: rgb(168, 177, 0)"> / </b><%= p.name %></a>
