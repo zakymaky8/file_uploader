@@ -85,6 +85,7 @@ const createNewFile = async (req, res) => {
     const { folder_id } = req.params;
     if (req.url === "/upload") {
         await File.createInRootFile(req.user, req.file);
+        console.log(req.file)
         res.redirect("/")
         return
     } else if (req.url === `/file_uploaded_to/${folder_id}`) {
