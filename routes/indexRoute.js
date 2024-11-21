@@ -1,7 +1,10 @@
 const { Router } = require("express");
-const { getHome, getLoginForm, getSignUpForm, registerUser, signUserOut, createFolder, createNewFile, getToDataInsideFolder, editFolderName, deleteSingleFile, fileDetailGet, dowloadFile } = require("../controllers/indexController");
+const { getHome, getLoginForm, getSignUpForm, registerUser, signUserOut, createFolder, createNewFile, getToDataInsideFolder, editFolderName, deleteSingleFile, fileDetailGet, dowloadFile, deleteFolderPost } = require("../controllers/indexController");
 const { passport } = require("../auth/passport");
 const multer = require("multer");
+const cloudinary = require('../config/cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
 const { validateRegistration } = require("../middlewares/validate")
 
 const flash = require("connect-flash");
@@ -46,15 +49,24 @@ indexRouter.use(flash());
 indexRouter.use(passport.session());
 indexRouter.use(require("express").urlencoded({extended: false}))
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + file.originalname)
-    }
+const store = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'uploads/',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf', 'mp4', 'mp3', 'txt'],
+    transformation: [{ width: 500, height: 500, crop: 'limit' }]
+  }
 })
-const upload = multer({storage: storage})
+
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, "uploads/");
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, Date.now() + file.originalname)
+//     }
+// })
+const upload = multer({storage: store})
 
 indexRouter.get("/", getHome);
 indexRouter.get("/login", getLoginForm);
@@ -90,6 +102,10 @@ indexRouter.post("/file/delete/:file_id", deleteSingleFile)
 indexRouter.get("/file/details/:file_id", fileDetailGet)
 
 indexRouter.get("/file/download/:file_id", dowloadFile)
+
+indexRouter.post("/folder/delete/:folder_id", deleteFolderPost)
+
+
 
 module.exports = indexRouter
 
