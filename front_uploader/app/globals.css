@@ -1,0 +1,292 @@
+@import "tailwindcss";
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.lay-body {
+  background: rgb(2, 61, 39);
+  color: rgb(190, 159, 226);
+  display: grid;
+  grid-template-columns: 240px 4fr;
+  grid-template-rows: 1.3fr 5fr;
+  grid-template-areas: 'header header'
+                        'nav  main';
+  min-height: 100vh;
+
+}
+
+header {
+  grid-area: header;
+  background: rgb(4, 86, 57);
+  border-bottom: 1px solid rgb(12, 30, 14);
+  display: flex;
+  padding: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: inset 0 0 2px 0 rgb(54, 53, 56);
+  gap: 10px
+}
+header h1 {
+  -webkit-text-stroke: 1px rgb(190, 159, 226);
+}
+
+main {
+  grid-area: main;
+  height: 82.8vh;
+  overflow-y: auto;
+  background: #151212;
+}
+
+nav {
+  grid-area: nav;
+  border-right: 1px solid #022c1d;
+}
+
+.searchform div input{
+  border-bottom: 1px solid black;
+  height: 35px;
+  padding: 10px;
+}
+.searchform div button {
+  height: 25px;
+  opacity: 0.6;
+  padding: 3px;
+}
+
+
+
+.login {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login form input, .login button {
+  height: 32px;
+  font-size: 100%;
+  border: 1px solid rgb(80, 77, 77);
+  color: white;
+  padding: 4px;
+}
+.login button {
+  background: #000;
+  color: blue;
+  padding: 4px;
+}
+
+.signup {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.signup form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.signup form div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.signup form input:not(input[type='checkbox']) {
+  height: 32px;
+  font-size: 100%;
+  border: 1px solid rgb(80, 77, 77);
+  padding-left: 4px;
+  color: white;
+}
+.signup button {
+  background: #000;
+  color: blue;
+  padding: 4px;
+  border: 1px solid rgb(80, 77, 77);
+  cursor: pointer;
+}
+
+
+
+table, th, td {
+  border-collapse: collapse;
+}
+td {
+  text-align: center;
+  user-select: none;
+  min-height: 34px;
+  font-size: 11px;
+}
+
+#fold-edit,#fold-edit + button {
+  opacity: 0.6;
+  border: none;
+  border-radius: 4px;
+  height: 20px;
+  padding: 2px;
+}
+
+tr {
+  border-bottom: 1px solid rgb(35, 35, 35);
+}
+
+th {
+  background: rgb(2, 29, 2);
+  border: 1px solid black;
+  text-align: center;
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+#profile-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgb(28, 9, 116);
+  text-align: center;
+  padding: 2px;
+  cursor: pointer;
+}
+#profile-icon:hover, #profile-icon + span:hover  {
+  border: 1px solid rgb(80, 70, 70);
+}
+
+#prof-pref {
+  list-style-type: none;
+  padding: 15px;
+  position: absolute;
+  width: max-content;
+  color: black;
+  right: 30%;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#prof-pref li:hover {
+  text-decoration: underline;
+  color: blue;
+}
+
+#profile-icon:active, #profile-icon + span:active {
+  border: 1px solid white;
+}
+.more:hover, .more-on-file:hover {
+  border: 1px solid aqua;
+  border-radius: 10px;
+}
+.profile {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+  align-items: center;
+  background: #000;
+  border-radius: 12px;
+  padding: 10px;
+  position: relative;
+}
+
+#folder-form {
+  margin: 10px;
+}
+
+#folder-form input {
+  width: 150px;
+  font-size: 12px;
+  height: 30px;
+  font-size: 100%;
+  padding: 5px;
+  background: rgb(0, 0, 0);
+  border: none;
+  color: inherit;
+}
+
+#folder-form button {
+  width: fit-content;
+  font-size: 100%;
+  background: #0b2902;
+  color: inherit;
+}
+
+
+#upload-form, #folder-form {
+  padding: 10px;
+  border: 1px solid rgb(69, 58, 58);
+  min-height: 100px;
+}
+
+#upload-form input:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.path {
+  background: #102e02;
+  padding: 5px;
+}
+.more-on-file-menu {
+  gap: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .lay-body {
+      grid-template-areas: "header header"
+                           "nav nav"
+                           "main main";
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(25vh, 34vh) min-content 1fr;
+  }
+  nav ul {
+      flex-direction: row;
+      flex-wrap: wrap;
+  }
+  nav {
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid rgb(2, 44, 29);
+  }
+  header {
+    min-height: max-content;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+
+
+.spinner {
+  animation: spin 1.5s forwards infinite linear;
+}
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(2160deg);
+  }
+}
