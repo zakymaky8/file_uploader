@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  front-uploader:
+    container_name: front_uploader
+    build:
+      context: ./front_uploader
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 3008:3008
+    depends_on:
+      - backend_uploader
+    volumes:
+      - ./front_uploader:/app
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - uploader_net
+
+  backend_uploader:
+    container_name: backend_uploader
+    build:
+      context: ./backend_uploader
+      dockerfile: Dockerfile
+    ports:
+      - 3006:3006
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    env_file:
+      - ./backend_uploader/.env
+    command: node --watch app
+    networks:
+      - uploader_net
+    volumes:
+      - ./backend_uploader:/app
+      - /app/node_modules
+    environment:
+      DATABASE_URL: postgresql://zeki:Eureka20++@uploaderdb:5432/uploads
+    
+  postgresql:
+    image: postgres:latest
+    container_name: uploaderdb
+    restart: always
+    volumes:
+      - uploader_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: zeki
+      POSTGRES_DB: uploads
+      POSTGRES_PASSWORD: Eureka20++
+    networks:
+      - uploader_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zeki -d uploads"]
+      interval: 10s
+      retries: 5
+
+
+volumes:
+  uploader_data:
+
+
+networks:
+  uploader_net:
