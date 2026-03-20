@@ -37,7 +37,7 @@ services:
       - ./backend_uploader:/app
       - /app/node_modules
     environment:
-      DATABASE_URL: postgresql://zeki:Eureka20++@uploaderdb:5432/uploads
+      DATABASE_URL: 
     
   postgresql:
     image: postgres:latest
